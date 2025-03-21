@@ -1,7 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
-const ytdl = require("ytdl-core");
+const ytdl = require("@distube/ytdl-core");
 const path = require("path");
 
 require("dotenv").config();

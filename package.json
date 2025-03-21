@@ -6,7 +6,7 @@
     "start": "nodemon src/index.js"
   },
   "engines": {
-    "node": "22.x"
+    "node": "20.14.0"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
   "description": "",
   "dependencies": {
     "@distube/ytdl-core": "^4.16.5",
+    "@ybd-project/ytdl-core": "^6.0.8",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.0",
