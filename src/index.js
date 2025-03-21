@@ -21,6 +21,29 @@ app.get("/", (req, res) => {
   res.send("Hello, world!");
 });
 
+app.get("/download", async (req, res) => {
+  try {
+    const songsPath = path.join(__dirname, "../public/songs");
+    if (!fs.existsSync(songsPath)) {
+      fs.mkdirSync(songsPath, { recursive: true });
+    }
+    const info = await ytdl.getInfo(
+      "https://youtu.be/JvB6N7loN80?si=3x_LlyCV_iZKzUs1"
+    );
+    console.log({ info });
+    const name = new Date().getTime();
+    ytdl("https://youtu.be/JvB6N7loN80?si=3x_LlyCV_iZKzUs1", {
+      quality: "highestaudio",
+    }).pipe(fs.createWriteStream(`public/songs/${name}.mp3`));
+    res.json({
+      ...info.player_response.videoDetails,
+      url: `/songs/${name}.mp3`,
+    });
+  } catch (error) {
+    console.log("download error", error);
+  }
+});
+
 app.post("/download", async (req, res) => {
   try {
     const songsPath = path.join(__dirname, "../public/songs");
