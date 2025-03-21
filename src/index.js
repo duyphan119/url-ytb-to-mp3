@@ -7,14 +7,21 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
+const publicPath = path.join(__dirname, "../public");
+if (!fs.existsSync(publicPath)) {
+  fs.mkdirSync(publicPath, { recursive: true });
+}
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(cors());
-
 const PORT = process.env.PORT || 3001;
 
 app.post("/download", async (req, res) => {
+  const songsPath = path.join(__dirname, "../public/songs");
+  if (!fs.existsSync(songsPath)) {
+    fs.mkdirSync(songsPath, { recursive: true });
+  }
   const info = await ytdl.getInfo(req.body.url);
   const name = new Date().getTime();
   ytdl(req.body.url, {
