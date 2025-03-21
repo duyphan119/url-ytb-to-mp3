@@ -22,19 +22,23 @@ app.get("/", (req, res) => {
 });
 
 app.post("/download", async (req, res) => {
-  const songsPath = path.join(__dirname, "../public/songs");
-  if (!fs.existsSync(songsPath)) {
-    fs.mkdirSync(songsPath, { recursive: true });
+  try {
+    const songsPath = path.join(__dirname, "../public/songs");
+    if (!fs.existsSync(songsPath)) {
+      fs.mkdirSync(songsPath, { recursive: true });
+    }
+    const info = await ytdl.getInfo(req.body.url);
+    const name = new Date().getTime();
+    ytdl(req.body.url, {
+      quality: "highestaudio",
+    }).pipe(fs.createWriteStream(`public/songs/${name}.mp3`));
+    res.json({
+      ...info.player_response.videoDetails,
+      url: `/songs/${name}.mp3`,
+    });
+  } catch (error) {
+    console.log("download error", error);
   }
-  const info = await ytdl.getInfo(req.body.url);
-  const name = new Date().getTime();
-  ytdl(req.body.url, {
-    quality: "highestaudio",
-  }).pipe(fs.createWriteStream(`public/songs/${name}.mp3`));
-  res.json({
-    ...info.player_response.videoDetails,
-    url: `/songs/${name}.mp3`,
-  });
 });
 
 app.post("/delete", (req, res) => {
