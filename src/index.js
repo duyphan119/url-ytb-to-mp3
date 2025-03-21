@@ -28,6 +28,7 @@ app.post("/download", async (req, res) => {
       fs.mkdirSync(songsPath, { recursive: true });
     }
     const info = await ytdl.getInfo(req.body.url);
+    console.log({ info });
     const name = new Date().getTime();
     ytdl(req.body.url, {
       quality: "highestaudio",
