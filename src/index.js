@@ -17,6 +17,10 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(cors());
 const PORT = process.env.PORT || 3001;
 
+app.get("/", (req, res) => {
+  res.send("Hello, world!");
+});
+
 app.post("/download", async (req, res) => {
   const songsPath = path.join(__dirname, "../public/songs");
   if (!fs.existsSync(songsPath)) {
