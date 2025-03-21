@@ -6,7 +6,7 @@
     "start": "nodemon src/index.js"
   },
   "engines": {
-    "node": "14.x"
+    "node": "22.x"
   },
   "keywords": [],
   "author": "",
